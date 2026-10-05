@@ -1,163 +1,112 @@
-# Alzheimer's Disease Risk Prediction Using Machine Learning
+# 🧠 Alzheimer's Disease Risk Prediction Using Machine Learning
 
-## Overview
+### Machine Learning + Explainable AI
 
-This project develops a machine-learning-based system for classifying dementia status using demographic, cognitive, and anatomical brain measurements.
+A machine learning project for predicting dementia status using demographic, cognitive, and brain-related measurements from OASIS patient metadata.
 
-The final model is an XGBoost classifier, with a Streamlit interface for making predictions.
+> ⚠️ **Disclaimer:** This project is intended for research and educational purposes only. It is not a medical diagnostic system and should not be used for clinical decision-making.
 
-> Disclaimer: This project is intended for educational and research purposes only. It is not a medical diagnostic system and should not be used for clinical decision-making.
+---
 
-## Objective
+## 📌 Project Overview
 
-The objective is to classify patients into:
+Alzheimer's disease and other forms of dementia are major neurological conditions that can affect memory, cognition, and daily functioning.
+
+This project explores the use of machine learning to classify patients into:
+
+- **NonDemented**
+- **Demented**
+
+The project uses clinical, demographic, cognitive, and anatomical features and compares multiple machine learning algorithms before selecting the final model.
+
+The project also incorporates **SHAP (SHapley Additive exPlanations)** to provide model interpretability.
+
+---
+
+## 🎯 Objectives
+
+- Build a machine learning model for dementia status classification.
+- Compare multiple machine learning algorithms.
+- Handle missing clinical data using preprocessing pipelines.
+- Evaluate model performance using multiple classification metrics.
+- Validate the selected model using 5-fold cross-validation.
+- Evaluate performance on an independent test dataset.
+- Use SHAP for model explainability.
+- Deploy the trained model as an interactive Streamlit web application.
+
+---
+
+## 📊 Dataset
+
+The project uses OASIS patient metadata.
+
+### Features
+
+The final model uses the following features:
+
+| Feature | Description |
+|---|---|
+| Age | Patient age |
+| M/F | Patient gender |
+| Educ | Years of education |
+| SES | Socioeconomic status |
+| MMSE | Mini-Mental State Examination score |
+| eTIV | Estimated Total Intracranial Volume |
+| nWBV | Normalized Whole Brain Volume |
+| ASF | Atlas Scaling Factor |
+
+### Target
+
+The original dataset contained multiple dementia-related classes:
 
 - NonDemented
-- Demented
+- VeryMildDemented
+- MildDemented
+- ModerateDemented
 
-using demographic, cognitive, and anatomical features.
+For this project, these were converted into a binary classification problem:
 
-## Features
+```text
+NonDemented → 0
+All dementia classes → 1                 Predicted
+                 NonDemented  Demented
 
-The final model uses:
+Actual NonDemented     196       19
+Actual Demented         6       23alzheimers-risk-prediction/
+│
+├── alzheimers_xgboost_model.pkl
+├── app.py
+├── README.md
+└── requirements.txtpip install -r requirements.txtstreamlit run app.pyOASIS Patient Metadata
+        ↓
+Data Cleaning
+        ↓
+Feature Selection
+        ↓
+Missing Value Handling
+        ↓
+Feature Encoding & Scaling
+        ↓
+Train / Validation Split
+        ↓
+Model Comparison
+        ↓
+XGBoost Selection
+        ↓
+5-Fold Cross-Validation
+        ↓
+Independent Test Evaluation
+        ↓
+SHAP Explainability
+        ↓
+Final Model Training
+        ↓
+Streamlit Deployment
+### One important correction
 
-- Age
-- M/F
-- Educ
-- SES
-- MMSE
-- eTIV
-- nWBV
-- ASF
+Notice I changed the wording around **“risk”** and **“probability.”** Your model predicts the **dementia class**, so we shouldn't present its 64.1% output as a medically validated “64.1% risk of Alzheimer's.”
 
-## Models Evaluated
+That's a much safer and more professional way to present the project in a portfolio.
 
-The following models were evaluated:
-
-- Logistic Regression
-- Random Forest
-- Support Vector Machine (SVM)
-- XGBoost
-
-XGBoost was selected as the final model.
-
-## Cross-Validation Performance
-
-The final XGBoost model achieved the following 5-fold cross-validation results:
-
-| Metric | Mean | Standard Deviation |
-|---|---:|---:|
-| Accuracy | 91.63% | 4.50% |
-| Precision | 89.13% | 6.08% |
-| Recall | 88.67% | 9.73% |
-| F1 Score | 88.57% | 6.55% |
-| ROC-AUC | 96.48% | 2.04% |
-
-## Independent Test Performance
-
-| Metric | Score |
-|---|---:|
-| Accuracy | 89.75% |
-| Precision | 54.76% |
-| Recall | 79.31% |
-| F1 Score | 64.79% |
-| ROC-AUC | 95.40% |
-
-### Test Confusion Matrix
-
-    [[196, 19],
-     [  6, 23]]
-
-Where:
-
-- True Negatives = 196
-- False Positives = 19
-- False Negatives = 6
-- True Positives = 23
-
-## Explainable AI
-
-SHAP was used to explain model predictions.
-
-The analysis includes:
-
-- Global feature importance
-- SHAP summary plot
-- Individual prediction explanations
-
-## Streamlit Application
-
-The Streamlit application allows users to enter patient information and receive:
-
-- Predicted dementia status
-- Estimated dementia probability
-
-## Project Structure
-
-    alzheimers_risk_prediction/
-    |
-    |-- app.py
-    |-- alzheimers_xgboost_model.pkl
-    |-- requirements.txt
-    |-- README.md
-
-## Installation
-
-Clone the repository:
-
-    git clone <your-github-repository-url>
-    cd alzheimers_risk_prediction
-
-Install dependencies:
-
-    pip install -r requirements.txt
-
-## Run the Application
-
-    streamlit run app.py
-
-## Machine Learning Workflow
-
-    Dataset
-       |
-    Data Cleaning
-       |
-    Feature Selection
-       |
-    Missing Value Handling
-       |
-    Feature Encoding
-       |
-    Model Comparison
-       |
-    XGBoost Selection
-       |
-    Cross-Validation
-       |
-    SHAP Explainability
-       |
-    Final Model Training
-       |
-    Streamlit Application
-
-## Limitations
-
-- The dataset is relatively small.
-- The independent test set has a different class distribution from the training data.
-- The model is not a clinical diagnostic tool.
-- Performance may not generalize to other populations or clinical settings.
-- The predicted probability is a model output and should not be interpreted as a medical risk probability.
-
-## Technologies Used
-
-- Python
-- Pandas
-- Scikit-learn
-- XGBoost
-- SHAP
-- Streamlit
-- Joblib
-
-## License
-
-This project is intended for educational and research purposes.
+**Do this one step first:** replace the README with the above, commit the changes, and tell me when it's done. Then we'll do the next README improvement: **:contentReference[oaicite:0]{index=0}.**
+> 
