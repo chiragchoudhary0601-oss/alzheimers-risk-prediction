@@ -1,3 +1,7 @@
+import sklearn
+import streamlit as st
+
+st.write("Scikit-learn version:", sklearn.__version__)
 import streamlit as st
 import sklearn
 import xgboost
